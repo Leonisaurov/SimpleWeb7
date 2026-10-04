@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta property="og:title" content="DogFood - Comida para perros">
+<meta property="og:description" content="Comida premium para perros con envío a domicilio">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#e67e22">
+<link rel="manifest" href="manifest.json">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Store","name":"DogFood","description":"Tienda de comida para perros","telephone":"0000000000"}
+</script>
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
+<meta name="description" content="Tienda de comida premium para perros con envío a domicilio y pedidos por WhatsApp">
+<title>DogFood - Comida para perros</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐶</text></svg>">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<a href="#products" class="sr-only" onfocus="this.style.left='10px'" onblur="this.style.left='-9999px'">Saltar a productos</a>
+<header>
+  <h1>🐶 DogFood</h1>
+  <p>La mejor comida para tu perro</p>
+  <button id="tema" onclick="toggleTema()">🌙 Modo oscuro</button>
+  <button id="compartir" onclick="compartir()">📤 Compartir</button>
+  <a id="carrito-count" href="#cart" >🛒 0</a>
+</header>
+
+<section class="hero">
+  <h2>Alimento premium para perros felices</h2>
+  <p>Envíos el mismo día en tu zona · Envío gratis desde $40</p>
+  <a href="#cart"><button>Ver mi carrito</button></a>
+</section>
+
+<nav class="filtros">
+  <label for="buscar" class="sr-only">Buscar</label><input id="buscar" aria-label="Buscar producto" placeholder="Buscar producto..." oninput="buscarDebounced()">
+  <select id="categoria" onchange="renderProductos()">
+    <option value="">Todas las categorías</option>
+    <option value="fav">❤️ Favoritos</option>
+  <option value="croquetas">Croquetas</option>
+    <option value="snacks">Snacks</option>
+  </select>
+  <select id="orden" onchange="renderProductos()">
+    <option value="">Ordenar por</option>
+    <option value="asc">Precio: menor a mayor</option>
+    <option value="desc">Precio: mayor a menor</option>
+    <option value="rating">Mejor calificados</option>
+    <option value="nombre">Nombre A-Z</option>
+    <option value="stock">Disponibilidad</option>
+  </select>
+  <button onclick="limpiarFiltros()">Limpiar</button>
+</nav>
+
+<p id="resultados" class="sub"></p>
+<section class="products" id="products"></section>
+
+<section class="faq">
+  <h2>Preguntas frecuentes</h2>
+  <details><summary>¿Hacen envíos el mismo día?</summary><p>Sí, pedidos antes de las 3pm se entregan el mismo día.</p></details>
+  <details><summary>¿Qué métodos de pago aceptan?</summary><p>Efectivo contra entrega, transferencia y pago móvil.</p></details>
+  <details><summary>¿Puedo cambiar mi pedido?</summary><p>Escríbenos por WhatsApp antes del despacho.</p></details>
+</section>
+
+<section class="testimonios">
+  <h2>Vistos recientemente</h2>
+  <div id="vistos" class="chips"></div>
+</section>
+
+<section class="beneficios">
+  <h2>¿Por qué elegirnos?</h2>
+  <div class="beneficios-grid">
+    <div>🚚 Envío a domicilio</div>
+    <div>🌿 Ingredientes naturales</div>
+    <div>💰 Precios justos</div>
+    <div>✅ Garantía 30 días</div>
+  </div>
+</section>
+
+<section class="testimonios">
+  <h2>Lo que dicen nuestros clientes</h2>
+  <p>⭐⭐⭐⭐⭐ "Mi perro ama las croquetas premium." — Ana</p>
+  <p>⭐⭐⭐⭐⭐ "Excelente servicio y entrega rápida." — Carlos</p>
+</section>
+
+<section id="cart">
+  <h2>🛒 Carrito</h2>
+  <ul id="cart-items"></ul>
+  <p id="total" aria-live="polite">Total: $0</p>
+  <p id="ahorro" ></p>
+  <input id="nombre" aria-label="Tu nombre" maxlength="60" placeholder="Tu nombre">
+  <input id="direccion" aria-label="Dirección de entrega" maxlength="120" placeholder="Dirección de entrega">
+  <input id="web" name="web" tabindex="-1" autocomplete="off" class="sr-only" placeholder="No llenar">
+  <div class="cupon-row">
+    <input aria-label="Código de descuento" id="cupon" placeholder="Código de descuento"  onkeydown="if(event.key==='Enter')aplicarCupon()">
+    <button class="btn-sec" onclick="aplicarCupon()">Aplicar</button>
+  </div>
+  <button class="btn-sec" onclick="previsualizar()">Previsualizar mensaje</button>
+  <button onclick="enviarPedido()">Pedir por WhatsApp</button>
+  <button class="btn-sec" onclick="window.print()">Imprimir resumen</button>
+  <button class="btn-peligro" onclick="vaciar()">Vaciar carrito</button>
+  <button class="btn-sec" onclick="copiarPedido()">Copiar pedido</button>
+</section>
+
+<footer>
+  <p>📍 Calle Principal 123 · 🕐 Lun-Sáb 9:00-19:00 · 📞 0000000000</p>
+  <nav class="nav-footer"><a href="#products">Productos</a> · <a href="#cart">Carrito</a></nav>
+  <p>© <span id="year"></span> DogFood · <a href="#" onclick="resetDatos();return false">Restablecer datos</a></p>
+</footer>
+
+<a class="wa-flotante" href="https://wa.me/0000000000" target="_blank" rel="noopener noreferrer">💬</a>
+<a id="arriba" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false">⬆</a>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/app.js"></script>
+<script src="js/register-sw.js"></script>
+</body>
+</html>

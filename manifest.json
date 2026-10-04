@@ -1,0 +1,9 @@
+{
+  "name": "DogFood",
+  "short_name": "DogFood",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#fdf6ec",
+  "theme_color": "#e67e22",
+  "icons": []
+}
